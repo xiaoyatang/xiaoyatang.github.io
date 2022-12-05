@@ -29,7 +29,10 @@ This project will visualize the traffic routes and other relative information in
 
 
 ## Final project submission: 
- Code: Contains in 'final.html' and 'js' files, stylling by 'style.css'.   
- Libraries used are d3 and arcgis, linked in 'final.html'.   
+ Code: Contains in 'index.html' and 'js' files, stylling by 'style.css'.   
+ 
+ Libraries used are d3 and arcgis, linked in 'index.html'.   
+ 
  Website to our project:  https://xiaoyatang.github.io/
+ 
  Our screencast video is post on Youtube:  
