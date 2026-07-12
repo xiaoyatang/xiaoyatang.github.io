@@ -339,33 +339,11 @@ h3 {
 
 .visitor-widget {
   display: grid;
-  gap: 10px;
+  place-items: center;
+  min-height: 220px;
   padding: 14px;
   border: 1px solid var(--line);
   background: var(--paper);
-}
-
-.visitor-widget p {
-  margin: 0;
-  color: var(--muted);
-}
-
-.visitor-widget a {
-  color: var(--blue);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.visitor-widget code {
-  display: block;
-  overflow-x: auto;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  background: var(--white);
-  color: var(--ink);
-  font-size: 0.86rem;
-  white-space: nowrap;
 }
 
 .footer {
