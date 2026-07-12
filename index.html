@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>个人主页 | Research Portfolio</title>
+    <meta
+      name="description"
+      content="A clean personal research portfolio for projects, publications, and contact information."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="返回首页">
+        <span class="brand-mark">R</span>
+        <span>Research Portfolio</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Computer Vision · Deep Learning · Detection</p>
+          <h1 id="hero-title">你的名字</h1>
+          <p class="hero-text">
+            这里写一句简洁的自我介绍：你的研究方向、目前身份，以及你最希望别人记住的工作重点。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">查看项目</a>
+            <a class="button secondary" href="#contact">联系我</a>
+          </div>
+        </div>
+        <div class="research-visual" aria-label="Research visual">
+          <div class="visual-panel">
+            <div class="scan-grid">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="signal-card">
+              <strong>Similarity Sampling</strong>
+              <small>Classification prototype</small>
+            </div>
+            <div class="metric-card">
+              <span>Focus</span>
+              <strong>Robust Detection</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">About</p>
+          <h2>关于我</h2>
+        </div>
+        <p class="wide-text">
+          这里可以写你的学术背景、研究兴趣、目前正在做的课题。比如：我关注深度学习模型在视觉检测、
+          分类与特征分析中的表现，并探索更高效、更稳健的数据采样与模型训练方法。
+        </p>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Projects</p>
+          <h2>项目</h2>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <p class="card-kicker">Current</p>
+            <h3>Similarity Sampling Classification</h3>
+            <p>
+              一个用于分类任务的相似性采样原型，包含模型配置、数据管线和实验脚本。
+            </p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">Analysis</p>
+            <h3>Feature Analysis</h3>
+            <p>
+              面向特征表示和模型行为的分析流程，用于理解不同设置下的分类表现。
+            </p>
+          </article>
+          <article class="card">
+            <p class="card-kicker">Future</p>
+            <h3>Paper & Demo Page</h3>
+            <p>
+              后续可以加入论文摘要、实验图表、数据集说明、代码链接和演示结果。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="publications" class="section split">
+        <div class="section-heading">
+          <p class="eyebrow">Publications</p>
+          <h2>论文</h2>
+        </div>
+        <div class="publication-list">
+          <article>
+            <h3>论文标题放这里</h3>
+            <p>作者列表，会议或期刊，年份。</p>
+          </article>
+          <article>
+            <h3>Preprint / Manuscript</h3>
+            <p>可以放 arXiv、Neurocomputing 投稿、代码仓库或补充材料链接。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>联系我</h2>
+          <p>把下面的占位内容替换成你的真实联系方式。</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+          <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://scholar.google.com/" target="_blank" rel="noreferrer">Google Scholar</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> 你的名字</span>
+      <a href="#home">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
