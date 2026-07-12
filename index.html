@@ -6,7 +6,7 @@
     <title>Xiaoya Tang | Academic Portfolio</title>
     <meta
       name="description"
-      content="A clean personal research portfolio for projects, publications, and contact information."
+      content="A compact personal research portfolio with projects, notes, contact information, and visitor location tracking."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -20,7 +20,6 @@
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#blog">Blog</a>
-        <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -124,23 +123,6 @@
         </div>
       </section>
 
-      <section id="publications" class="section split">
-        <div class="section-heading">
-          <p class="eyebrow">Publications</p>
-          <h2>Publications</h2>
-        </div>
-        <div class="publication-list">
-          <article>
-            <h3>Manuscript title</h3>
-            <p>Author list, venue or journal, year.</p>
-          </article>
-          <article>
-            <h3>Preprint / Manuscript</h3>
-            <p>Refer to the selected project links above for current manuscripts and preprints.</p>
-          </article>
-        </div>
-      </section>
-
       <section id="contact" class="section contact">
         <div>
           <p class="eyebrow">Contact</p>
@@ -156,17 +138,19 @@
 
       <section id="map-tracker" class="section map-tracker" aria-labelledby="map-tracker-title">
         <div class="map-copy">
-          <p class="eyebrow">Map Tracker</p>
-          <h2 id="map-tracker-title">Salt Lake City, Utah</h2>
-          <p>Current academic home base near the University of Utah.</p>
+          <p class="eyebrow">Visitor Tracker</p>
+          <h2 id="map-tracker-title">Visitor IP Locations</h2>
+          <p>MapMyVisitors-style tracker for visualizing visitor locations from page visits.</p>
         </div>
-        <div class="map-frame">
-          <iframe
-            title="Map tracker centered near the University of Utah"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=-111.9080%2C40.7430%2C-111.8050%2C40.7920&amp;layer=mapnik&amp;marker=40.7649%2C-111.8421"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+        <div class="visitor-widget">
+          <p>
+            Generate a private widget id at
+            <a href="https://mapmyvisitors.com/add" target="_blank" rel="noreferrer">MapMyVisitors</a>,
+            then replace the placeholder script below with your own embed code.
+          </p>
+          <code>
+            &lt;script id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=YOUR_WIDGET_ID&amp;cl=ffffff&amp;w=a"&gt;&lt;/script&gt;
+          </code>
         </div>
       </section>
     </main>
