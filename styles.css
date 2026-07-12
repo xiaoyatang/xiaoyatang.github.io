@@ -328,7 +328,7 @@ h3 {
   display: grid;
   grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
   gap: 18px;
-  align-items: center;
+  align-items: start;
   background: var(--white);
 }
 
@@ -338,12 +338,11 @@ h3 {
 }
 
 .visitor-widget {
-  display: grid;
-  place-items: center;
-  min-height: 220px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  background: var(--paper);
+  display: block;
+  width: min(100%, 400px);
+  min-height: 462px;
+  margin: 0 auto;
+  overflow: visible;
 }
 
 .footer {
