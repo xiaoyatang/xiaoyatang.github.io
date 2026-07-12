@@ -62,14 +62,12 @@ a {
 }
 
 .brand-mark {
-  display: grid;
   width: 30px;
   height: 30px;
-  place-items: center;
-  color: var(--white);
-  background: var(--ink);
+  display: block;
+  object-fit: cover;
   border-radius: 8px;
-  font-size: 0.76rem;
+  background: var(--ink);
 }
 
 .nav {
@@ -85,11 +83,22 @@ a {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.85fr);
   gap: clamp(18px, 3vw, 36px);
   min-height: calc(68vh - 52px);
   align-items: center;
   padding: clamp(22px, 4vw, 42px) clamp(18px, 4vw, 44px) 18px;
+}
+
+.hero-copy {
+  min-width: 0;
+}
+
+.hero-title-row {
+  display: flex;
+  max-width: 780px;
+  align-items: center;
+  gap: clamp(12px, 2vw, 22px);
 }
 
 .eyebrow {
@@ -177,29 +186,41 @@ h3 {
 }
 
 .profile-photo {
-  align-self: center;
-  margin: 0;
-}
-
-.profile-photo img {
   display: block;
-  width: min(100%, 280px);
-  height: auto;
-  margin-left: auto;
+  flex: 0 0 clamp(70px, 9vw, 112px);
+  width: clamp(70px, 9vw, 112px);
+  aspect-ratio: 1;
+  border: 3px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 16px 34px rgba(31, 41, 51, 0.14);
+  object-fit: cover;
+  object-position: center;
 }
 
-.profile-photo figcaption {
+.gallery-panel {
+  min-width: 0;
+  align-self: center;
+}
+
+.gallery-heading {
+  margin-bottom: 10px;
+}
+
+.gallery-grid {
   display: grid;
-  gap: 2px;
-  width: min(100%, 280px);
-  margin: 8px 0 0 auto;
-  color: var(--muted);
-  font-size: 0.86rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.profile-photo figcaption strong {
-  color: var(--ink);
-  font-size: 0.95rem;
+.gallery-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(216, 222, 231, 0.95);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 12px 28px rgba(31, 41, 51, 0.08);
+  object-fit: cover;
 }
 
 .section {
@@ -326,7 +347,7 @@ h3 {
 
 .map-tracker {
   display: grid;
-  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+  grid-template-columns: minmax(220px, 0.75fr) minmax(280px, 0.85fr);
   gap: 18px;
   align-items: start;
   background: var(--white);
@@ -339,10 +360,16 @@ h3 {
 
 .visitor-widget {
   display: block;
-  width: min(100%, 400px);
-  min-height: 462px;
+  width: min(100%, 304px);
+  height: 352px;
   margin: 0 auto;
-  overflow: visible;
+  overflow: hidden;
+}
+
+.visitor-widget-scale {
+  width: 400px;
+  transform: scale(0.76);
+  transform-origin: top left;
 }
 
 .footer {
@@ -377,10 +404,17 @@ h3 {
     min-height: auto;
   }
 
-  .profile-photo img,
-  .profile-photo figcaption {
-    width: min(100%, 300px);
-    margin-left: 0;
+  .profile-photo {
+    flex-basis: 88px;
+    width: 88px;
+  }
+
+  .gallery-panel {
+    max-width: 560px;
+  }
+
+  .visitor-widget {
+    margin: 0;
   }
 
   .cards {
@@ -394,6 +428,19 @@ h3 {
 }
 
 @media (max-width: 520px) {
+  .hero-title-row {
+    align-items: flex-start;
+  }
+
+  .profile-photo {
+    flex-basis: 72px;
+    width: 72px;
+  }
+
+  .gallery-grid {
+    gap: 6px;
+  }
+
   .footer {
     align-items: flex-start;
     flex-direction: column;

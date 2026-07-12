@@ -8,16 +8,18 @@
       name="description"
       content="A compact personal research portfolio with projects, notes, contact information, and visitor location tracking."
     />
+    <link rel="icon" type="image/png" href="icon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="#home" aria-label="Back to home">
-        <span class="brand-mark">XT</span>
+        <img class="brand-mark" src="icon.png" alt="" aria-hidden="true" />
         <span>Xiaoya Tang</span>
       </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
         <a href="#projects">Projects</a>
         <a href="#blog">Blog</a>
         <a href="#contact">Contact</a>
@@ -28,7 +30,10 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Self Exploration · Life Exploration · Computer Vision · Deep Learning</p>
-          <h1 id="hero-title">Xiaoya Tang <span>唐晓雅</span></h1>
+          <div class="hero-title-row">
+            <h1 id="hero-title">Xiaoya Tang <span>唐晓雅</span></h1>
+            <img class="profile-photo" src="assets/profile.jpeg" alt="Portrait of Xiaoya Tang" />
+          </div>
           <p class="hero-text">
             I study learning-based visual recognition systems, with an emphasis on
             effective and efficient architectures, representation learning, and
@@ -39,13 +44,23 @@
             <a class="button secondary" href="#contact">Contact</a>
           </div>
         </div>
-        <figure class="profile-photo">
-          <img src="assets/profile.jpeg" alt="Portrait of Xiaoya Tang" />
-          <figcaption>
-            <strong>Xiaoya Tang</strong>
-            <span>PhD student, University of Utah</span>
-          </figcaption>
-        </figure>
+        <section id="gallery" class="gallery-panel" aria-labelledby="gallery-title">
+          <div class="gallery-heading">
+            <p class="eyebrow">Gallery</p>
+            <h2 id="gallery-title">Gallery</h2>
+          </div>
+          <div class="gallery-grid">
+            <img src="original-22A9EFE6-CF14-4A69-9966-752225CC46E9.jpeg" alt="Gallery photo 1" />
+            <img src="processed-3A945F11-79D2-4947-B8EE-79D0AA458C60.jpeg" alt="Gallery photo 2" />
+            <img src="processed-65540319-149D-44C6-B56F-AEAA35C9E4E1.jpeg" alt="Gallery photo 3" />
+            <img src="original-AED8F889-6ED5-43D7-913B-166E7ABBE20E.jpeg" alt="Gallery photo 4" />
+            <img src="IMG_9317.jpeg" alt="Gallery photo 5" />
+            <img src="original-D7D6349C-814A-4C70-A569-DB93D2A5A028.jpeg" alt="Gallery photo 6" />
+            <img src="original-9B1E28C7-C3A2-4081-BC40-A63C9A3A0838.jpeg" alt="Gallery photo 7" />
+            <img src="assets/profile.jpeg" alt="Gallery photo 8" />
+            <img src="assets/profile.jpeg" alt="Gallery photo 9" />
+          </div>
+        </section>
       </section>
 
       <section id="about" class="section">
@@ -139,11 +154,13 @@
       <section id="map-tracker" class="section map-tracker" aria-labelledby="map-tracker-title">
         <div class="map-copy">
           <p class="eyebrow">Visitor Tracker</p>
-          <h2 id="map-tracker-title">Visitor IP Locations</h2>
+          <h2 id="map-tracker-title">Visitors</h2>
           <p>Global visitor counter based on page visits.</p>
         </div>
         <div class="visitor-widget">
-          <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=olJyxH5l7VlqeADGytGDlqh18CBeB9TLPEhqP-JHdxI"></script>
+          <div class="visitor-widget-scale">
+            <script type="text/javascript" id="mmvst_globe" src="https://mapmyvisitors.com/globe.js?d=olJyxH5l7VlqeADGytGDlqh18CBeB9TLPEhqP-JHdxI"></script>
+          </div>
         </div>
       </section>
     </main>
