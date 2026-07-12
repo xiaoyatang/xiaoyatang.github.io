@@ -28,35 +28,25 @@
     <main id="home">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Computer Vision · Deep Learning · Robust Detection</p>
-          <h1 id="hero-title">Xiaoya Tang</h1>
+          <p class="eyebrow">Self Exploration · Life Exploration · Computer Vision · Deep Learning</p>
+          <h1 id="hero-title">Xiaoya Tang <span>唐晓雅</span></h1>
           <p class="hero-text">
             I study learning-based visual recognition systems, with an emphasis on
-            robust detection, feature analysis, and data sampling strategies for
-            classification and representation learning.
+            effective and efficient architectures, representation learning, and
+            model behavior across domains.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#projects">View Research</a>
             <a class="button secondary" href="#contact">Contact</a>
           </div>
         </div>
-        <div class="research-visual" aria-label="Research visual">
-          <div class="visual-panel">
-            <div class="scan-grid">
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span>
-            </div>
-            <div class="signal-card">
-              <strong>Similarity Sampling</strong>
-              <small>Classification and representation analysis</small>
-            </div>
-            <div class="metric-card">
-              <span>Research Focus</span>
-              <strong>Reliable Visual Models</strong>
-            </div>
-          </div>
-        </div>
+        <figure class="profile-photo">
+          <img src="assets/profile.jpeg" alt="Portrait of Xiaoya Tang" />
+          <figcaption>
+            <strong>Xiaoya Tang</strong>
+            <span>PhD student, University of Utah</span>
+          </figcaption>
+        </figure>
       </section>
 
       <section id="about" class="section">
@@ -65,10 +55,17 @@
           <h2>About</h2>
         </div>
         <p class="wide-text">
-          My work explores how visual models learn from data, how their internal
-          features behave across training settings, and how sampling strategies can
-          improve performance and reliability. This site collects selected projects,
-          research notes, publications, and reproducible artifacts.
+          Xiaoya is a fourth-year PhD student at the Kahlert School of Computing,
+          University of Utah, affiliated with the Scientific Computing and Imaging
+          Institute (SCI). She is advised by Professor
+          <a href="https://scholar.google.com/citations?user=qcydYi8AAAAJ&amp;hl=en&amp;oi=ao" target="_blank" rel="noreferrer">Tolga Tasdizen</a>.
+          She received her bachelor's degree in Aircraft Design and Engineering and
+          her master's degree in Solid Mechanics from Zhejiang University, Hangzhou,
+          China. Moving across mechanics and computer science has shaped her interest
+          in how models, people, and systems learn. Her current work explores how
+          visual models learn from data and how their internal features behave across
+          tasks and settings. Beyond AI, she enjoys philosophy, psychology, exercise,
+          reading, writing, and gardening.
         </p>
       </section>
 
@@ -79,28 +76,35 @@
         </div>
         <div class="cards">
           <article class="card">
-            <p class="card-kicker">Current Study</p>
-            <h3>Similarity Sampling Classification</h3>
+            <p class="card-kicker">Representation Learning</p>
+            <h3>
+              <a href="https://www.sciencedirect.com/science/article/pii/S0925231226018412" target="_blank" rel="noreferrer">
+                Domain Adaptation for Street-View Imagery
+              </a>
+            </h3>
             <p>
-              A classification prototype investigating similarity-aware sampling,
-              model configuration choices, and training behavior under controlled
-              experimental settings.
+              Understanding how visual representation models transfer across domains is critical for applying foundation models to real-world datasets.
+              In this work, we present a systematic empirical study of representation learning for Google Street View (GSV) imagery, a domain that differs
+              substantially from standard object-centric benchmarks. We investigate how architecture choice, model scale, self-supervised post-training, and
+              data curation influence downstream performance.
             </p>
           </article>
           <article class="card">
             <p class="card-kicker">Model Analysis</p>
-            <h3>Feature Analysis</h3>
+            <h3>Multiscale Transformers</h3>
             <p>
-              A workflow for studying learned representations, feature separability,
-              and model responses across datasets, checkpoints, and ablation settings.
+              A workflow for studying vision transformers across
+              <a href="https://arxiv.org/pdf/2506.12982" target="_blank" rel="noreferrer">pathology images</a>,
+              <a href="https://arxiv.org/pdf/2411.00755" target="_blank" rel="noreferrer">electrocardiogram diagnosis</a>,
+              and <a href="https://arxiv.org/pdf/2504.16102" target="_blank" rel="noreferrer">multimodal audio-video settings</a>.
             </p>
           </article>
           <article class="card">
-            <p class="card-kicker">Research Artifact</p>
-            <h3>Paper & Demo Page</h3>
+            <p class="card-kicker">Previous Study</p>
+            <h3>Thermal performance of nanomaterials</h3>
             <p>
-              A place for manuscript summaries, experiment figures, dataset notes,
-              code links, and supplementary material for ongoing submissions.
+              Prior work on mechanics and materials, including thermal behavior in
+              <a href="https://pubs.aip.org/aip/adv/article/9/1/015024/1068943" target="_blank" rel="noreferrer">nanomaterial systems</a>.
             </p>
           </article>
         </div>
@@ -117,16 +121,6 @@
             <strong>Research Notes</strong>
             <p>Short essays on research ideas, method comparisons, and design choices.</p>
           </a>
-          <a class="blog-category" href="#blog">
-            <span>02</span>
-            <strong>Experiment Logs</strong>
-            <p>Structured records of training setups, ablations, failures, and fixes.</p>
-          </a>
-          <a class="blog-category" href="#blog">
-            <span>03</span>
-            <strong>Reading Notes</strong>
-            <p>Paper notes, related work maps, equations, and open research questions.</p>
-          </a>
         </div>
       </section>
 
@@ -142,7 +136,7 @@
           </article>
           <article>
             <h3>Preprint / Manuscript</h3>
-            <p>Links to arXiv, submitted manuscripts, code repositories, and supplementary material.</p>
+            <p>Refer to the selected project links above for current manuscripts and preprints.</p>
           </article>
         </div>
       </section>
@@ -154,9 +148,25 @@
           <p>For research discussions, collaboration, or project inquiries.</p>
         </div>
         <div class="contact-links">
-          <a href="mailto:u1368791@umail.utah.edu">u1368791@umail.utah.edu</a>
+          <a href="mailto:xiaoya.tang@utah.edu">xiaoya.tang@utah.edu</a>
           <a href="https://github.com/xiaoyatang" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://scholar.google.com/" target="_blank" rel="noreferrer">Google Scholar</a>
+          <a href="https://scholar.google.com/citations?user=v3Yy3mEAAAAJ&amp;hl=en&amp;authuser=1" target="_blank" rel="noreferrer">Google Scholar</a>
+        </div>
+      </section>
+
+      <section id="map-tracker" class="section map-tracker" aria-labelledby="map-tracker-title">
+        <div class="map-copy">
+          <p class="eyebrow">Map Tracker</p>
+          <h2 id="map-tracker-title">Salt Lake City, Utah</h2>
+          <p>Current academic home base near the University of Utah.</p>
+        </div>
+        <div class="map-frame">
+          <iframe
+            title="Map tracker centered near the University of Utah"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-111.9080%2C40.7430%2C-111.8050%2C40.7920&amp;layer=mapnik&amp;marker=40.7649%2C-111.8421"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </section>
     </main>
