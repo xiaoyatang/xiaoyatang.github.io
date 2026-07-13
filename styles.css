@@ -261,7 +261,7 @@ h3 {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -369,17 +369,89 @@ h3 {
 }
 
 .visitor-widget {
-  display: block;
-  width: min(100%, 304px);
-  height: 352px;
+  display: grid;
+  width: min(100%, 220px);
+  min-height: 220px;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
   margin: 0 auto;
   overflow: hidden;
 }
 
-.visitor-widget-scale {
-  width: 400px;
-  transform: scale(0.76);
-  transform-origin: top left;
+.visitor-orb {
+  position: relative;
+  width: 142px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(45, 93, 147, 0.24);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 70% 70%, rgba(39, 105, 91, 0.35), rgba(39, 105, 91, 0) 42%),
+    linear-gradient(135deg, rgba(45, 93, 147, 0.88), rgba(39, 105, 91, 0.86));
+  box-shadow:
+    inset -16px -18px 32px rgba(24, 33, 47, 0.28),
+    0 18px 36px rgba(31, 41, 51, 0.14);
+  overflow: hidden;
+}
+
+.visitor-orb::before,
+.visitor-orb::after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.visitor-orb::before {
+  inset: 18px 34px;
+  border-left: 1px solid rgba(255, 255, 255, 0.38);
+  border-right: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.visitor-orb::after {
+  inset: 40px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.34);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.visitor-orb-axis,
+.visitor-orb-ring {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-24deg);
+}
+
+.visitor-orb-axis {
+  width: 112%;
+  height: 42%;
+}
+
+.visitor-orb-ring {
+  width: 126%;
+  height: 24%;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%) rotate(22deg);
+}
+
+.visitor-orb-ring-alt {
+  width: 72%;
+  height: 116%;
+  transform: translate(-50%, -50%) rotate(18deg);
+}
+
+.visitor-badge {
+  display: inline-flex;
+  min-height: 22px;
+}
+
+.visitor-badge img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .footer {
@@ -429,7 +501,7 @@ h3 {
   }
 
   .cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .blog-categories {
@@ -455,5 +527,9 @@ h3 {
   .footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
   }
 }
