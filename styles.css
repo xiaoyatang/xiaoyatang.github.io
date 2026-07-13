@@ -198,18 +198,28 @@ h3 {
 }
 
 .gallery-panel {
+  width: 75%;
   min-width: 0;
   align-self: center;
+  justify-self: center;
 }
 
 .gallery-heading {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.gallery-heading .eyebrow {
+  font-size: 0.62rem;
+}
+
+.gallery-heading h2 {
+  font-size: clamp(1.16rem, 2.1vw, 1.76rem);
 }
 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
 .gallery-grid img {
@@ -410,7 +420,8 @@ h3 {
   }
 
   .gallery-panel {
-    max-width: 560px;
+    width: min(100%, 420px);
+    justify-self: start;
   }
 
   .visitor-widget {
