@@ -491,3 +491,17 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 18px clamp(18px, 4vw, 44px) 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.back-link:hover {
+  color: var(--green);
+}
