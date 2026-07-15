@@ -28,125 +28,64 @@ MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }
 </style>
 </head>
 <body>
-
+ 
 <article>
-<h3 id="transformer-architectures">Transformer Architectures</h3>
-<p>The Vision Transformer (ViT)<sup><a href="#ref-1">[1]</a></sup>(Figure 1) has
-become a leading architecture across a wide range of language and
-computer vision benchmarks since its emergence, following the success of
-the self-attention mechanism<sup><a href="#ref-2">[2]</a></sup>. It has now
+<h3 id="transformer-architectures">The gains and pains of Transformers</h3>
+<p>If AI is an exquisite and magnificent wine cup, the Transformer is the material from which this cup is shaped—be it glass, metal, or clay. 
+Since its emergence, the Transformer<sup><a href="#ref-1">[1]</a></sup> has
+become a leading architecture across a wide range of applications, building on the success of
+the self-attention<sup><a href="#ref-2">[2]</a></sup>. It has now
 become a fundamental building block of Computer Vision (CV) models,
 Vision-Language Models (VLMs)<sup><a href="#ref-3">[3]</a></sup>, and Large
-Language Models (LLMs)<sup><a href="#ref-4">[4]</a></sup>. ViTs have
-demonstrated a higher performance ceiling than traditional convolutional
-neural networks (CNNs)<sup><a href="#ref-5">[5]</a></sup>, such as
-ResNets<sup><a href="#ref-6">[6]</a></sup>, particularly after large-scale
-pretraining or when provided with sufficient data to acquire the
-necessary inductive biases.</p>
-<p>However, the lack of inductive bias has been a persistent challenge
-for Transformer-based models—especially in the vision domain—due to the
-modality shift from language to images while still relying on the same
-patch tokenization process. In a vanilla ViT<sup><a href="#ref-1">[1]</a></sup>,
-the general workflow includes patch tokenization/embedding, stacked
-attention blocks, and a task-specific head. An image is uniformly
-divided into fixed-size patches (typically 16×16), which are then
-projected via a convolutional layer into a sequence of vector
-representations, or tokens. This token sequence is subsequently
-processed through a series of attention layers. The self-attention
-mechanism, shown in Eq. 1, computes relationships among all tokens
-within the sequence, yielding a globally contextualized representation
-of the entire image. For an input sequence <span
-class="math inline">\(\mathbf{x}\in \mathbb{R}^{N\times D}\)</span>,
-query, key, and value matrices <span
-class="math inline">\((\mathbf{q},\mathbf{k},\mathbf{v})\)</span> are
-obtained via learned linear projections. The attention weights <span
-class="math inline">\(A_{ij}\)</span> quantify the similarity between
-the <span class="math inline">\(i\)</span>-th query and the <span
-class="math inline">\(j\)</span>-th key, and are used to produce a
-weighted combination of all value vectors. Multi-Head Self-Attention
-(MSA) extends this operation by performing <span
-class="math inline">\(n_h\)</span> independent attention computations
-(“heads”) in parallel and projecting the concatenated outputs back to
-the feature dimension, allowing the model to capture diverse relational
-patterns across tokens. <span class="math display">\[\begin{aligned}
-\left[\mathbf{q},\mathbf{k},\mathbf{v}\right]&amp;=\mathbf{x}\mathbf{W}_{qkv},\mathbf{W}_{qkv}\in
-\mathbb{R}^{D\times 3D_h},D_h=\frac{D}{n_h},\\
-        A&amp;=\text{Softmax}\left(
-\frac{\mathbf{q}\mathbf{k}^T}{\sqrt{D_h}}\right),A \in
-\mathbb{R}^{N\times N},\\
-        \text{SA}(\mathbf{x})&amp;=A\mathbf{v}, \\
-        \text{MSA}(\mathbf{x})&amp;=\left[\text{SA}_1(\mathbf{x});\text{SA}_2(\mathbf{x});...;\text{SA}_{n_h}(\mathbf{x})\right]\mathbf{W}_{msa},\\
-        \mathbf{W}_{msa}&amp;\in \mathbb{R}^{n_h\cdot D_h\times D}.
-    \end{aligned}
-    \label{eq:multihead self-attention}\]</span> ViT-based architectures
-have exhibited strong holistic understanding for classification tasks
-and fine-grained comprehension for dense prediction tasks such as
-segmentation, across diverse data modalities including natural
-images<sup><a href="#ref-1">[1]</a></sup>, videos<sup><a href="#ref-7">[7]</a></sup>,
-audios<sup><a href="#ref-8">[8]</a></sup>, and medical data encompassing both
-imaging and temporal
-modalities<sup><a href="#ref-9">[9]</a></sup><sup><a href="#ref-10">[10]</a></sup>.
-Although ViTs are generally more computationally expensive than CNNs of
-comparable size, they are believed to possess greater representational
-flexibility and scalability across multiple tasks, provided there are
-sufficient inductive biases, either from the data or from architectural
-design choices.</p>
-<p>To mitigate the lack of inductive bias—particularly translation
-equivariance and spatial locality
-<sup><a href="#ref-11">[11]</a></sup><sup><a href="#ref-12">[12]</a></sup>—which are
-naturally encoded in CNNs, a large body of work has explored methods for
-integrating such priors into ViTs without relying solely on large
-training data. One research direction introduces auxiliary
-self-supervised objectives to make better use of limited data. Recently,
-Das et al. <sup><a href="#ref-13">[13]</a></sup> conducted a thorough study on
-the training schemes of Self-Supervised Learning (SSL) tasks for ViTs
-and found that jointly optimizing ViTs for the primary task (fine-tuning
-on limited labeled data) and a Self-Supervised Auxiliary Task (SSAT) is
-more effective than performing SSL and fine-tuning sequentially. Another
-direction involves injecting multi-scale inductive biases from CNNs into
-ViTs by integrating convolutional operations at various stages: prior to
-patch embedding, within attention
-blocks<sup><a href="#ref-14">[14]</a></sup>(e.g., replacing linear projections as
-in <sup><a href="#ref-15">[15]</a></sup>), via pooling
-mechanisms<sup><a href="#ref-7">[7]</a></sup>, or through hybrid hierarchical
-designs<sup><a href="#ref-16">[16]</a></sup><sup><a href="#ref-17">[17]</a></sup>.
-Subsequent advancements have explored architectures with hierarchical
-downsampling<sup><a href="#ref-18">[18]</a></sup><sup><a href="#ref-19">[19]</a></sup><sup><a href="#ref-20">[20]</a></sup>
-or intricate windowing
-strategies<sup><a href="#ref-21">[21]</a></sup><sup><a href="#ref-22">[22]</a></sup>,
-addressing the limitations of uniform, single-scale patch grids.
-Concurrently, significant effort has gone into enhancing the locality of
-ViTs while improving the computational efficiency. This has led to the
-development of local attention<sup><a href="#ref-23">[23]</a></sup>, an early
-form of windowed attention in which self-attention is confined to
-spatially local regions, further enabling pixel-level detail modeling
-<sup><a href="#ref-24">[24]</a></sup>. Moreover, by incorporating deformable
-convolutions or other dynamic mechanisms, models can support deformable
-or adaptive attention within windows<sup><a href="#ref-25">[25]</a></sup>,
-effectively combining the representational flexibility of attention with
-the efficiency and inductive biases of convolutions.</p>
-<h3 id="efficient-attention">Efficient Attention</h3>
-<p>Improving computational efficiency has become one of the central
-focuses in the evolution of Transformer–based architectures. While
-Transformers excel at modeling global dependencies through a fully
+Language Models (LLMs)<sup><a href="#ref-4">[4]</a></sup>. 
+Regardless of whether the Transformer takes a vanilla, hierarchical, or other 
+task-specific variant, self-attention remains its core: it computes relationships among all tokens
+within a sequence, yielding a global perception of the entire input, whatever the modality. It
+comes with a price. While Transformers excel at modeling global dependencies through a fully
 connected self-attention graph, they inherently suffer from the
-notorious <span class="math inline">\(O(N^2)\)</span> computational and
-memory complexity, where N denotes the number of nodes(tokens, or
-patches) in the fully connected graph. Linear Attention
-<sup><a href="#ref-26">[26]</a></sup> reformulates the self-attention mechanism
+notorious <span class="math inline">\(O(N^2)\)</span> computational complexity, where N denotes the number of 
+nodes(tokens, or patches) in the fully connected graph.
+</p>
+<p>
+The computational cost of Transformers comes from two main sources
+<sup><a href="#ref-21">[21]</a></sup>:
+self-attention, with \(O(N^2)\) complexity in the sequence length \(N\),
+and feed-forward networks (FFNs, usually two-layer MLPs), with
+\(O(N \cdot d^2)\) complexity, scaling linearly with the sequence length.
+These two cost sources define the fundamental divergence between two
+families of efficiency methods: efficient attention attempts to reform
+the \(O(N^2)\) attention computation itself, while token pruning directly
+reduces \(N\).
+</p>
+ 
+<h3 id="efficient-attention">Efficient Attention</h3>
+<p>Thus, a large body of work has sought to alleviate the notorious quadratic complexity of self-attention,
+which becomes one of the central focuses in the evolution of Transformers. It typically leaves the token count unchanged 
+and instead approximates or restructures the attention operation itself, avoiding full pairwise computation. 
+Linear Attention <sup><a href="#ref-26">[26]</a></sup> reformulates the self-attention mechanism
 by expressing the softmax similarity function as a dot product between
 kernel feature maps, leveraging the associativity of matrix
 multiplication to achieve a linear computational complexity with respect
 to sequence length(N). This formulation also reveals the intrinsic
 connection between Transformers and recurrent neural networks (RNNs),
 enabling efficient autoregressive modeling with faster training and
-inference. Window-based attentions are able to alleviate the same issue
+inference. However, the approximation error is usually non-trivial.
+</p>
+<p>
+Another branch is FlashAttention<sup><a href="#ref-todo-dao">[?]</a></sup>, which does not approximate attention but instead 
+reorganizes GPU memory access patterns via tiling and recomputation. It reduces memory footprint to \(O(N)\). 
+FlashAttention is an exact computation of attention with no approximation error, and is now the dominant engineering solution 
+in practice, especially in LLMs and VLMs. 
+Other related methods include grouped query attention / multi-query attention (GQA/MQA)<sup><a href="#ref-todo-gqa">[?]</a></sup>, 
+where multiple query heads share a single set of key/value projections. 
+This primarily targets the KV cache memory bottleneck at inference time and offers limited training speedup.
+</p>
+<p>Focusing on vision, window-based attentions are able to alleviate the same issue
 from a different perspective, by restricting self-attention to local
 regions. When the window or kernel size is relatively small compared to
 the input resolution, the computational complexity can be significantly
 reduced <sup><a href="#ref-21">[21]</a></sup>, as demonstrated in local attention
-mechanisms for vision data<sup><a href="#ref-24">[24]</a></sup>. Building upon
-this, Dilated Neighborhood Attention Transformer(DiNAT)
+mechanisms for vision data<sup><a href="#ref-24">[24]</a></sup>. Dilated Neighborhood Attention Transformer(DiNAT)
 <sup><a href="#ref-27">[27]</a></sup> extends Neighborhood Attention
 <sup><a href="#ref-24">[24]</a></sup> into a dilated local attention capable of
 preserving locality, maintaining translational equivariance, and
@@ -157,189 +96,130 @@ cluster patches into a predefined number of <span
 class="math inline">\(M\)</span> clusters that serve as keys and values,
 relaxing the quadratic complexity to linear and demonstrating greater
 efficiency than PVT models <sup><a href="#ref-18">[18]</a></sup> and Swin
-<sup><a href="#ref-21">[21]</a></sup>.</p>
-<p>To further lower both time and space complexity, researchers have
-explored token pruning methods for various downstream tasks such as
-segmentation<sup><a href="#ref-29">[29]</a></sup>. In language tasks involving
+<sup><a href="#ref-21">[21]</a></sup>.
+</p>
+ 
+<h3 id="section:token-pruning">Token Pruning</h3>
+<p>
+Another line of research reduces the computational cost by directly decreasing the number of input tokens.
+The vision information is inherently redundant.
+Visual token pruning is based on the central intuition that not all tokens are equally important, especially across layers, 
+so a subset can be discarded mid-network without materially affecting the final output. One branch of pruning 
+(or merging) methods is importance-based, including EViT <sup><a href="#ref-35">[35]</a></sup>, 
+DynamicViT <sup><a href="#ref-36">[36]</a></sup>, ToMe <sup><a href="#ref-37">[37]</a></sup>,
+TokenPooling <sup><a href="#ref-38">[38]</a></sup>, and
+SP-ViT <sup><a href="#ref-21">[21]</a></sup>. These methods either use
+attention weights over visual tokens as an importance proxy or rely on
+a learnable predictor. Another branch is clustering-based, represented
+by ST-ViT <sup><a href="#ref-39">[39]</a></sup>.
+</p>
+  
+<p>
+The efficiency gains of token pruning come from several aspects:
+</p>
+ 
+<ul>
+  <li>
+    <strong>Attention computation:</strong>
+    \(O(N^2) \rightarrow O(N'^2)\), where \(N' \ll N\).
+  </li>
+  <li>
+    <strong>FFN computation:</strong>
+    \(O(N) \rightarrow O(N')\), where \(N' \ll N\).
+  </li>
+  <li>
+    <strong>KV cache (inference):</strong>
+    Fewer tokens lead to a much smaller KV cache, which is critical for
+    long-context inference.
+  </li>
+  <li>
+    <strong>Training speed:</strong>
+    Fewer tokens also reduce the computational cost during training.
+  </li>
+</ul>
+ 
+<p>
+In language tasks involving
 long-context inputs, where the number of tokens can reach millions,
 additional studies have leveraged the sparsity of attention weights in
-pretrained LLMs. These include heuristic pruning based on attention
+pretrained LLMs. Representative approaches include heuristic pruning based on attention
 patterns <sup><a href="#ref-30">[30]</a></sup>, low-rank decompositions
 <sup><a href="#ref-31">[31]</a></sup>, learned thresholding
 <sup><a href="#ref-32">[32]</a></sup>, predictive pruning of token indices
 <sup><a href="#ref-33">[33]</a></sup>, and entropy-inspired approaches
 <sup><a href="#ref-34">[34]</a></sup> that dynamically allocate computation based
-on content relevance.<br />
+on content relevance.
 </p>
-<figure>
-<img src="images/ViTandVim3.png" alt="Model Architectures (Left: ViT; Right: Vim)" />
-<figcaption>Figure 1. Model Architectures (Left: ViT; Right: Vim). The gray rectangles labeled from 0 to N represent the positional embeddings.</figcaption>
-</figure>
-<h3 id="section:SSM">State Space Model</h3>
-<p>Despite the existing efforts to improve the efficiency of attention
-computation while maintaining the representational capacity of ViTs, a
-growing body of research has been exploring alternative architectures as
-potential successors to modern neural networks. Among these, Mamba
-<sup><a href="#ref-35">[35]</a></sup> revisits state-space models (SSMs) and
-demonstrates strong performance on 1D long-sequence modeling with linear
-or near-linear complexity with respect to input length. This has
-inspired work on constructing general-purpose vision backbones built
-entirely on SSMs. The key challenges in applying SSMs to vision are: (1)
-encoding the position-sensitive nature of 2D spatial structures and (2)
-capturing global visual context, since the original 1D Mamba is
-unidirectional and lacks inherent positional awareness.</p>
-<p>SSMs originate from continuous-time dynamical systems, mapping an
-input sequence <span class="math inline">\(u(t)\in \mathbb{R}^L\)</span>
-to an output <span class="math inline">\(y(t)\in \mathbb{R}^L\)</span>
-through a hidden state <span class="math inline">\(h(t) \in
-\mathbb{R}^N\)</span>, where <span class="math inline">\(t\)</span>
-denotes time. A continuous-time linear SSM is expressed as the Ordinary
-Differential Equation(ODE) in Eq. 2, where <span
-class="math inline">\(\mathbf{A}\in \mathbb{R}^{N\times N}\)</span> is
-the state transition matrix. <span class="math inline">\(\mathbf{B}\in
-\mathbb{R}^{N\times 1}\)</span>, and <span
-class="math inline">\(\mathbf{C}\in \mathbb{R}^{1\times N}\)</span> are
-the input and output projection matrices, respectively. <span
-class="math display">\[\begin{aligned}
-h&#39;(t)&amp;=\mathbf{A}h(t)+\mathbf{B}u(t),\\
-y(t)&amp;=\mathbf{C}h(t).
-\end{aligned}
-\label{eq:mamba ODE}\]</span> To integrate SSMs into deep learning, this
-continuous model must be discretized. A standard approach is the
-Zero-Order Hold (ZOH) method, which yields discrete matrices <span
-class="math inline">\(\bar{\mathbf{A}}\)</span> and <span
-class="math inline">\(\bar{\mathbf{B}}\)</span>, parameterized by a
-times step <span class="math inline">\(\mathbf{\Delta}\)</span>, as
-shown in Eq. 3. <span class="math display">\[\begin{aligned}
-\bar{\mathbf{A}} &amp;= \exp(\Delta\mathbf{A}),\\
-\bar{\mathbf{B}} &amp;=
-(\Delta\mathbf{A})^{-1}(\exp(\Delta\mathbf{A})-\mathbf{I})\cdot
-\Delta\mathbf{B}.
-\end{aligned}
-\label{eq:mamba discretization}\]</span> This produces the discrete
-recurrence in Eq. 4: <span class="math display">\[\begin{aligned}
-h_t&amp;=\bar{\mathbf{A}}h_{t-1}+\bar{\mathbf{B}}u_t,\\
-y_t&amp;=\mathbf{C}h_t.
-\end{aligned}
-\label{eq:mamba discretization-2}\]</span> S4
-<sup><a href="#ref-36">[36]</a></sup> and Mamba (also known as
-S6)<sup><a href="#ref-35">[35]</a></sup> both adopt this discretized SSM form
-above. However, Mamba introduces a selective input-dependent
-parameterization, where <span
-class="math inline">\(\mathbf{\Delta}\)</span>, <span
-class="math inline">\(\mathbf{B}\)</span> and <span
-class="math inline">\(\mathbf{C}\)</span> are conditioned on the input,
-while <span class="math inline">\(\mathbf{A}\)</span> is learned as a
-global parameter. In practice, for input <span class="math inline">\(u
-\in \mathbb{R}^{b\times L\times N}\)</span>, Mamba produces <span
-class="math inline">\(\mathbf{\Delta}\in \mathbb{R}^{b\times L\times
-D}\)</span>, <span class="math inline">\(\mathbf{B,C}\in
-\mathbb{R}^{b\times L\times N}\)</span>, dynamically through the
-Selective Scan mechanism. Here, <span class="math inline">\(b\)</span>
-represents the batch size, <span class="math inline">\(L\)</span>
-denotes the sequence length, <span class="math inline">\(D\)</span> is
-the feature dimension, and <span class="math inline">\(N\)</span> can be
-viewd as the hidden size of SSM, e.g., 16. Then <span
-class="math inline">\(\mathbf{\Delta}\)</span> and <span
-class="math inline">\(\mathbf{B}\)</span> are used to transform the
-<span class="math inline">\(\bar{\mathbf{A}}\)</span> and <span
-class="math inline">\(\bar{\mathbf{B}}\)</span>.</p>
-<p>Zhu et al.<sup><a href="#ref-37">[37]</a></sup> adapt S4 and Mamba to vision
-in Vision Mamba (Vim). Images are partitioned into patches, projected to
-tokens, and processed as sequences—similar to ViT. To account for the
-non-causal nature of images, Vim introduces bidirectional selective
-scanning and position embeddings, enabling global context modeling and
-spatial awareness. The model overview is shown in Fig. 1. A 2D image
-<span class="math inline">\(\mathbf{t} \in \mathbb{R}^{H \times W \times
-C}\)</span> is first divided into non-overlapping patches of size <span
-class="math inline">\(P \times P\)</span>, which are then flattened into
-vectors, forming <span class="math inline">\(\mathbf{x_p} \in
-\mathbb{R}^{J \times (P^2C)}\)</span>, where <span
-class="math inline">\((H, W)\)</span> is the spatial resolution of the
-input, <span class="math inline">\(C\)</span> is the number of channels,
-and <span class="math inline">\(J\)</span> is the number of patches.
-Each patch vector is then linearly projected into a <span
-class="math inline">\(D\)</span>-dimensional embedding using a learnable
-projection matrix <span class="math inline">\(\mathbf{W}\in
-\mathbb{R}^{(P^2C)\times D}\)</span>, and a positional embedding <span
-class="math inline">\(\mathbf{E}_{pos}\in \mathbb{R}^{(J+1)\times
-D}\)</span> is added, as shown in Eq. 5. Following the ViT design, a
-learnable [CLS] token <span
-class="math inline">\(\mathbf{t}{cls}\)</span> is introduced to
-summarize the global representation of the entire patch sequence. Based
-on ablation studies, <span
-class="math inline">\(\mathbf{t}{cls}\)</span> is inserted in the middle
-of the sequence rather than at the beginning. As in ViT, the entire
-sequence is then used as the input of a stack of SSM blocks in Vim
-encoder, where sequence <span
-class="math inline">\(\mathbf{T}_0\)</span> was processed from the
-forward and backward directions. The output class token <span
-class="math inline">\(\mathbf{t}{cls}\)</span> after the final layer of
-Vim block is used for prediction. <span
-class="math display">\[\begin{aligned}
-        \mathbf{T}_0 &amp;=
-[\mathbf{t}_{cls};\mathbf{t}_{p}^1\mathbf{W};\mathbf{t}_{p}^2\mathbf{W};...;\mathbf{t}_{p}^J\mathbf{W}]+\mathbf{E}_{pos}]\\[4pt]
-    \end{aligned}
-    \label{eq:positinal embeddings}\]</span> Almost concurrently, Liu et
-al. <sup><a href="#ref-38">[38]</a></sup> integrated visual state-space (VSS)
-blocks into a hierarchical backbone. In their design, the 2D Selective
-Scan (SS2D) module performs four-way (cross) scanning and merging to
-traverse the spatial domain. Specifically, SS2D unfolds feature maps
-into sequences along four different traversal paths. Each sequence is
-then processed in parallel by an independent S6 block, and the resulting
-sequences are reshaped and merged back into a 2D feature map. By
-leveraging these complementary 1D traversal directions, SS2D enables
-each pixel to aggregate information from all other spatial positions,
-effectively establishing a global receptive field in 2D space. Through
-this mechanism, VMamba <sup><a href="#ref-38">[38]</a></sup> adapts S6 to visual
-data without sacrificing key advantages of self-attention, namely global
-context modeling and dynamic, content-dependent weighting (in contrast
-to CNNs that use fixed convolutional
-kernels) <sup><a href="#ref-39">[39]</a></sup>. The comparison of different
-architectures is shown in Figure 3.</p>
-<p>Several subsequent works on visual Mamba architectures primarily
-differ in their scanning strategies. The raster scan is the most widely
-adopted in current implementations<sup><a href="#ref-40">[40]</a></sup>. More
-recently, Liu et al. <sup><a href="#ref-41">[41]</a></sup> introduced a
-deformable scanning approach to reduce the loss of structural
-information brought by fixed scanning paths.</p>
-<p>On ImageNet classification, many Visual Mamba architectures
-outperform the CNN-based MambaOut <sup><a href="#ref-42">[42]</a></sup> and
-hierarchical Transformer baselines such as
-Swin <sup><a href="#ref-21">[21]</a></sup>. Visual Mambas have also demonstrated
-strong performance across dense prediction tasks—including object
-detection and semantic segmentation <sup><a href="#ref-40">[40]</a></sup>—and
-have been extended to a wide range of modalities, such as X-ray
-images <sup><a href="#ref-43">[43]</a></sup>, digital
-pathology <sup><a href="#ref-44">[44]</a></sup>, 3D medical
-images <sup><a href="#ref-45">[45]</a></sup>, remote
-sensing <sup><a href="#ref-46">[46]</a></sup>, and video
-understanding <sup><a href="#ref-47">[47]</a></sup>. These applications benefit
-from Mamba’s ability to model long-range spatio-temporal dependencies
-efficiently.</p>
-<p>However, as observed by Xu et al. <sup><a href="#ref-40">[40]</a></sup>,
-Visual Mamba models demonstrate competitive performance, yet there are
-still cases where they do not fully match the most advanced Transformer
-architectures. Additionally, most current implementations are relatively
-small in scale, and how to scale Mamba-based models efficiently
-continues to be an active direction for future research. Similar to ViT,
-pure Mamba architectures also struggle to capture local fine-grained
-details, which are crucial for low-level visual tasks. To address this
-limitation, recent works incorporate convolutions, channel attention
-mechanisms <sup><a href="#ref-48">[48]</a></sup>, and multi-scale or hybrid
-scanning strategies <sup><a href="#ref-49">[49]</a></sup>. Together, these
-developments highlight a broader trend in computer vision
-research—seeking architectures that balance global context modeling and
-computational scalability despite the dominance of Transformers.</p>
-<figure>
-<img src="images/ViTandVim2.png" alt="Model Architectures (Left: ViT; Right: Vim)" />
-<figcaption>Figure 2. Model Architectures (Left: ViT; Right: Vim). The gray rectangles labeled from 0 to N represent the positional embeddings.</figcaption>
-</figure>
-<figure id="fig:receptive field">
-<img src="images/recepfield.png" style="width:42.0%" />
-<figcaption>Figure 3. Comparison of token dependencies (lines with arrows) and receptive field (black boxes) for different architectures.</figcaption>
-</figure>
-<p class="related-note">To roughly know Mamba, check <a href="Mamba.html">Vision Mamba</a>.</p>
+ 
+<h3 id="section:connections">Connections between them</h3>
+<p>
+The two approaches are not mutually exclusive. Combining FlashAttention
+with token pruning has become a natural and increasingly common
+engineering practice in VLM deployment. Token pruning is particularly
+well suited for VLMs because visual tokens are inherently much more
+redundant than text tokens. High-resolution VLMs (e.g.,
+InternVL <sup><a href="#ref-40">[40]</a></sup>) can produce more than
+1,000 visual tokens per image, creating severe computational pressure.
+By contrast, text tokens have near-zero redundancy: removing a single
+word often breaks semantic integrity. This asymmetry leads to a natural
+division of labor. In pure LLM settings, token pruning is high-risk, and
+efficient attention (especially FlashAttention) is the safer and more
+widely adopted solution. In VLM visual encoders, however, token pruning
+is a highly natural fit.
+</p>
+ 
+<p>
+Another important advantage of token pruning is its flexibility. Some
+methods, such as ToMe
+<sup><a href="#ref-37">[37]</a></sup>, are completely training-free,
+while others can be trained independently without modifying the backbone.
+By contrast, architectural changes to the attention mechanism often
+require retraining the entire model, introducing substantial
+computational overhead.
+</p>
+ 
+<p>
+Both approaches have their limitations.
+</p>
+ 
+<p>
+For token pruning, pruning decisions are irreversible: once a token is
+discarded, no downstream layer can recover its complete information.
+Aggressive pruning can significantly degrade performance on tasks that
+require fine-grained local details, and almost all existing methods
+incur a non-zero accuracy drop on most benchmarks, especially at high
+pruning ratios (e.g.,
+SparseVLM <sup><a href="#ref-41">[41]</a></sup>). Moreover, the pruning
+module itself (e.g., cross-attention or importance predictors)
+introduces additional overhead that may not be worthwhile for short
+input sequences.
+</p>
+ 
+<p>
+For efficient attention, approximation errors introduced by linear
+attention are often non-negligible
+<sup><a href="#ref-42">[42]</a></sup>. Sparse attention patterns usually
+depend on hand-designed inductive biases and often have limited
+transferability. FlashAttention v1
+<sup><a href="#ref-43">[43]</a></sup> primarily reduces memory I/O rather
+than the asymptotic FLOPs of exact attention, making it most beneficial
+when attention is memory-bound. Later variants, such as
+FlashAttention-2 <sup><a href="#ref-44">[44]</a></sup>, further improve
+compute efficiency by reducing non-matmul FLOPs and increasing GPU
+utilization.
+</p>
+ 
+<p>
+Overall, token pruning and efficient attention tackle the same
+efficiency problem from orthogonal directions. In VLM visual encoders,
+token pruning has a clear advantage because visual tokens are naturally
+redundant, allowing simultaneous reductions in both attention and FFN
+computation. Efficient attention, especially FlashAttention, remains the
+mainstream solution for LLM backbones, where sequence elements cannot be
+safely discarded.
+</p>
+ 
+<p class="related-note">To roughly know Mamba, check <a href="Mamba.html">Vision Mamba(To be organized...)</a>.</p>
   
 <h2>References</h2>
 <ol class="references">
@@ -392,8 +272,11 @@ computational scalability despite the dominance of Transformers.</p>
   <li id="ref-47">li2024videomamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
   <li id="ref-48">guo2024mambair <span class="ref-todo">（在此补全完整引用信息）</span></li>
   <li id="ref-49">shi2024multi <span class="ref-todo">（在此补全完整引用信息）</span></li>
+  <li id="ref-todo-dao">dao2022flashattention <span class="ref-todo">（缺失，请补全并添加到上方对应位置）</span></li>
+  <li id="ref-todo-gqa">ainslie2023gqa, shazeer2019fast <span class="ref-todo">（缺失，请补全并添加到上方对应位置）</span></li>
 </ol>
 </article>
-
+ 
 </body>
 </html>
+ 
