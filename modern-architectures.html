@@ -32,12 +32,12 @@ MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }
 <article>
 <h3 id="transformer-architectures">The gains and pains of Transformers</h3>
 <p>If AI is an exquisite and magnificent wine cup, the Transformer is the material from which this cup is shaped—be it glass, metal, or clay. 
-Since its emergence, the Transformer<sup><a href="#ref-1">[1]</a></sup> has
+Since its emergence, the Transformer<sup><a href="#ref-1">[1]</a></sup><sup><a href="#ref-2">[2]</a></sup> has
 become a leading architecture across a wide range of applications, building on the success of
-the self-attention<sup><a href="#ref-2">[2]</a></sup>. It has now
+the self-attention. It has now
 become a fundamental building block of Computer Vision (CV) models,
-Vision-Language Models (VLMs)<sup><a href="#ref-3">[3]</a></sup>, and Large
-Language Models (LLMs)<sup><a href="#ref-4">[4]</a></sup>. 
+Vision-Language Models (VLMs), and Large
+Language Models (LLMs). 
 Regardless of whether the Transformer takes a vanilla, hierarchical, or other 
 task-specific variant, self-attention remains its core: it computes relationships among all tokens
 within a sequence, yielding a global perception of the entire input, whatever the modality. It
@@ -47,8 +47,7 @@ notorious <span class="math inline">\(O(N^2)\)</span> computational complexity, 
 nodes(tokens, or patches) in the fully connected graph.
 </p>
 <p>
-The computational cost of Transformers comes from two main sources
-<sup><a href="#ref-21">[21]</a></sup>:
+The computational cost of Transformers comes from two main sources:
 self-attention, with \(O(N^2)\) complexity in the sequence length \(N\),
 and feed-forward networks (FFNs, usually two-layer MLPs), with
 \(O(N \cdot d^2)\) complexity, scaling linearly with the sequence length.
@@ -62,7 +61,7 @@ reduces \(N\).
 <p>Thus, a large body of work has sought to alleviate the notorious quadratic complexity of self-attention,
 which becomes one of the central focuses in the evolution of Transformers. It typically leaves the token count unchanged 
 and instead approximates or restructures the attention operation itself, avoiding full pairwise computation. 
-Linear Attention <sup><a href="#ref-26">[26]</a></sup> reformulates the self-attention mechanism
+Linear Attention <sup><a href="#ref-3">[3]</a></sup> reformulates the self-attention mechanism
 by expressing the softmax similarity function as a dot product between
 kernel feature maps, leveraging the associativity of matrix
 multiplication to achieve a linear computational complexity with respect
@@ -72,11 +71,11 @@ enabling efficient autoregressive modeling with faster training and
 inference. However, the approximation error is usually non-trivial.
 </p>
 <p>
-Another branch is FlashAttention<sup><a href="#ref-todo-dao">[?]</a></sup>, which does not approximate attention but instead 
+Another branch is FlashAttention<sup><a href="#ref-4">[4]</a></sup>, which does not approximate attention but instead 
 reorganizes GPU memory access patterns via tiling and recomputation. It reduces memory footprint to \(O(N)\). 
 FlashAttention is an exact computation of attention with no approximation error, and is now the dominant engineering solution 
 in practice, especially in LLMs and VLMs. 
-Other related methods include grouped query attention / multi-query attention (GQA/MQA)<sup><a href="#ref-todo-gqa">[?]</a></sup>, 
+Other related methods include grouped query attention / multi-query attention (GQA/MQA)<sup><a href="#ref-5">[5]</a></sup>, 
 where multiple query heads share a single set of key/value projections. 
 This primarily targets the KV cache memory bottleneck at inference time and offers limited training speedup.
 </p>
@@ -84,19 +83,19 @@ This primarily targets the KV cache memory bottleneck at inference time and offe
 from a different perspective, by restricting self-attention to local
 regions. When the window or kernel size is relatively small compared to
 the input resolution, the computational complexity can be significantly
-reduced <sup><a href="#ref-21">[21]</a></sup>, as demonstrated in local attention
-mechanisms for vision data<sup><a href="#ref-24">[24]</a></sup>. Dilated Neighborhood Attention Transformer(DiNAT)
-<sup><a href="#ref-27">[27]</a></sup> extends Neighborhood Attention
-<sup><a href="#ref-24">[24]</a></sup> into a dilated local attention capable of
+reduced, as demonstrated in local attention
+mechanisms for vision data. Dilated Neighborhood Attention Transformer(DiNAT)
+<sup><a href="#ref-6">[6]</a></sup> extends Neighborhood Attention
+<sup><a href="#ref-7">[7]</a></sup> into a dilated local attention capable of
 preserving locality, maintaining translational equivariance, and
 exponentially expanding the receptive field.</p>
 <p>Different from window attention, which is a reduced form of
-patch-to-patch attention, PaCa-ViT<sup><a href="#ref-28">[28]</a></sup> learns to
+patch-to-patch attention, PaCa-ViT<sup><a href="#ref-8">[8]</a></sup> learns to
 cluster patches into a predefined number of <span
 class="math inline">\(M\)</span> clusters that serve as keys and values,
 relaxing the quadratic complexity to linear and demonstrating greater
-efficiency than PVT models <sup><a href="#ref-18">[18]</a></sup> and Swin
-<sup><a href="#ref-21">[21]</a></sup>.
+efficiency than PVT models <sup><a href="#ref-9">[9]</a></sup> and Swin
+<sup><a href="#ref-10">[10]</a></sup>.
 </p>
  
 <h3 id="section:token-pruning">Token Pruning</h3>
@@ -105,13 +104,13 @@ Another line of research reduces the computational cost by directly decreasing t
 The vision information is inherently redundant.
 Visual token pruning is based on the central intuition that not all tokens are equally important, especially across layers, 
 so a subset can be discarded mid-network without materially affecting the final output. One branch of pruning 
-(or merging) methods is importance-based, including EViT <sup><a href="#ref-35">[35]</a></sup>, 
-DynamicViT <sup><a href="#ref-36">[36]</a></sup>, ToMe <sup><a href="#ref-37">[37]</a></sup>,
-TokenPooling <sup><a href="#ref-38">[38]</a></sup>, and
-SP-ViT <sup><a href="#ref-21">[21]</a></sup>. These methods either use
+(or merging) methods is importance-based, including EViT <sup><a href="#ref-11">[11]</a></sup>, 
+DynamicViT <sup><a href="#ref-12">[12]</a></sup>, ToMe <sup><a href="#ref-13">[13]</a></sup>,
+TokenPooling <sup><a href="#ref-14">[14]</a></sup>, and
+SP-ViT <sup><a href="#ref-15">[15]</a></sup>. These methods either use
 attention weights over visual tokens as an importance proxy or rely on
 a learnable predictor. Another branch is clustering-based, represented
-by ST-ViT <sup><a href="#ref-39">[39]</a></sup>.
+by ST-ViT <sup><a href="#ref-16">[16]</a></sup>.
 </p>
   
 <p>
@@ -143,22 +142,22 @@ In language tasks involving
 long-context inputs, where the number of tokens can reach millions,
 additional studies have leveraged the sparsity of attention weights in
 pretrained LLMs. Representative approaches include heuristic pruning based on attention
-patterns <sup><a href="#ref-30">[30]</a></sup>, low-rank decompositions
-<sup><a href="#ref-31">[31]</a></sup>, learned thresholding
-<sup><a href="#ref-32">[32]</a></sup>, predictive pruning of token indices
-<sup><a href="#ref-33">[33]</a></sup>, and entropy-inspired approaches
-<sup><a href="#ref-34">[34]</a></sup> that dynamically allocate computation based
+patterns <sup><a href="#ref-17">[17]</a></sup>, low-rank decompositions
+<sup><a href="#ref-18">[18]</a></sup>, learned thresholding
+<sup><a href="#ref-19">[19]</a></sup>, predictive pruning of token indices
+<sup><a href="#ref-20">[20]</a></sup>, and entropy-inspired approaches
+<sup><a href="#ref-21">[21]</a></sup> that dynamically allocate computation based
 on content relevance.
 </p>
  
-<h3 id="section:connections">Connections between them</h3>
+<h3 id="section:connections">How to choose?</h3>
 <p>
 The two approaches are not mutually exclusive. Combining FlashAttention
 with token pruning has become a natural and increasingly common
 engineering practice in VLM deployment. Token pruning is particularly
 well suited for VLMs because visual tokens are inherently much more
 redundant than text tokens. High-resolution VLMs (e.g.,
-InternVL <sup><a href="#ref-40">[40]</a></sup>) can produce more than
+InternVL <sup><a href="#ref-22">[22]</a></sup>) can produce more than
 1,000 visual tokens per image, creating severe computational pressure.
 By contrast, text tokens have near-zero redundancy: removing a single
 word often breaks semantic integrity. This asymmetry leads to a natural
@@ -171,7 +170,7 @@ is a highly natural fit.
 <p>
 Another important advantage of token pruning is its flexibility. Some
 methods, such as ToMe
-<sup><a href="#ref-37">[37]</a></sup>, are completely training-free,
+<sup><a href="#ref-13">[13]</a></sup>, are completely training-free,
 while others can be trained independently without modifying the backbone.
 By contrast, architectural changes to the attention mechanism often
 require retraining the entire model, introducing substantial
@@ -189,7 +188,7 @@ Aggressive pruning can significantly degrade performance on tasks that
 require fine-grained local details, and almost all existing methods
 incur a non-zero accuracy drop on most benchmarks, especially at high
 pruning ratios (e.g.,
-SparseVLM <sup><a href="#ref-41">[41]</a></sup>). Moreover, the pruning
+SparseVLM <sup><a href="#ref-23">[23]</a></sup>). Moreover, the pruning
 module itself (e.g., cross-attention or importance predictors)
 introduces additional overhead that may not be worthwhile for short
 input sequences.
@@ -197,14 +196,13 @@ input sequences.
  
 <p>
 For efficient attention, approximation errors introduced by linear
-attention are often non-negligible
-<sup><a href="#ref-42">[42]</a></sup>. Sparse attention patterns usually
+attention are often non-negligible. Sparse attention patterns usually
 depend on hand-designed inductive biases and often have limited
 transferability. FlashAttention v1
-<sup><a href="#ref-43">[43]</a></sup> primarily reduces memory I/O rather
+<sup><a href="#ref-4">[4]</a></sup> primarily reduces memory I/O rather
 than the asymptotic FLOPs of exact attention, making it most beneficial
 when attention is memory-bound. Later variants, such as
-FlashAttention-2 <sup><a href="#ref-44">[44]</a></sup>, further improve
+FlashAttention-2 <sup><a href="#ref-24">[24]</a></sup>, further improve
 compute efficiency by reducing non-matmul FLOPs and increasing GPU
 utilization.
 </p>
@@ -223,60 +221,32 @@ safely discarded.
   
 <h2>References</h2>
 <ol class="references">
-  <li id="ref-1">dosovitskiy2020image <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-2">vaswani2017attention <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-3">zhang2024vision <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-4">zhao2023survey <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-5">krizhevsky2012imagenet <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-6">he2016deep <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-7">fan2021multiscale <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-8">li2025audio <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-9">tang2024hierarchical <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-10">tang2025dynamic <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-11">lee2021vision <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-12">raghu2021vision <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-13">das2024limited <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-14">dai2021coatnet <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-15">wu2021cvt <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-16">tang2024duoformer <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-17">wang2023crossformer++ <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-18">wang2021pyramid <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-19">wang2022pvt <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-20">li2022mvitv2 <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-21">liu2021swin <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-22">dong2022cswin <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-23">parmar2018image <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-24">hassani2023neighborhood <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-25">pan2023slide <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-26">katharopoulos2020transformers <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-27">hassani2022dilated <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-28">grainger2023paca <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-29">tang2023dynamic <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-30">jiang2024minference <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-31">wang2020linformer <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-32">kim2022learned <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-33">akhauri2025tokenbutler <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-34">xiong2024uncomp <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-35">gu2024mamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-36">gu2021efficiently <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-37">zhu2024vision <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-38">liu2024vmamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-39">han2021connection <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-40">xu2024visual <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-41">liu2025defmamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-42">yu2025mambaout <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-43">yang2024cardiovascular <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-44">nasiri2024vim4path <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-45">tsai2024uu <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-46">chen2024rsmamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-47">li2024videomamba <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-48">guo2024mambair <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-49">shi2024multi <span class="ref-todo">（在此补全完整引用信息）</span></li>
-  <li id="ref-todo-dao">dao2022flashattention <span class="ref-todo">（缺失，请补全并添加到上方对应位置）</span></li>
-  <li id="ref-todo-gqa">ainslie2023gqa, shazeer2019fast <span class="ref-todo">（缺失，请补全并添加到上方对应位置）</span></li>
+  <li id="ref-1">Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., Uszkoreit, J., & Houlsby, N. (2020). An image is worth 16x16 words: Transformers for image recognition at scale. <em>arXiv preprint arXiv:2010.11929</em>.</li>
+  <li id="ref-2">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. <em>Advances in Neural Information Processing Systems, 30</em>.</li>
+  <li id="ref-3">Katharopoulos, A., Vyas, A., Pappas, N., & Fleuret, F. (2020, November). Transformers are RNNs: Fast autoregressive transformers with linear attention. In <em>International Conference on Machine Learning</em> (pp. 5156–5165). PMLR.</li>
+  <li id="ref-4">Dao, T., Fu, D., Ermon, S., Rudra, A., & Ré, C. (2022). FlashAttention: Fast and memory-efficient exact attention with IO-awareness. <em>Advances in Neural Information Processing Systems, 35</em>, 16344–16359.</li>
+  <li id="ref-5">Ainslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y., Lebrón, F., & Sanghai, S. (2023). GQA: Training generalized multi-query transformer models from multi-head checkpoints. In <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing</em> (pp. 4895–4901).</li>
+  <li id="ref-6">Hassani, A., & Shi, H. (2022). Dilated neighborhood attention transformer. <em>arXiv preprint arXiv:2209.15001</em>.</li>
+  <li id="ref-7">Hassani, A., Walton, S., Li, J., Li, S., & Shi, H. (2023). Neighborhood attention transformer. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 6185–6194).</li>
+  <li id="ref-8">Grainger, R., Paniagua, T., Song, X., Cuntoor, N., Lee, M. W., & Wu, T. (2023). PaCa-ViT: Learning patch-to-cluster attention in vision transformers. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 18568–18578).</li>
+  <li id="ref-9">Wang, W., Xie, E., Li, X., Fan, D. P., Song, K., Liang, D., Lu, T., Luo, P., & Shao, L. (2022). PVT v2: Improved baselines with pyramid vision transformer. <em>Computational Visual Media, 8</em>(3), 415–424.</li>
+  <li id="ref-10">Liu, Z., Lin, Y., Cao, Y., Hu, H., Wei, Y., Zhang, Z., Lin, S., & Guo, B. (2021). Swin transformer: Hierarchical vision transformer using shifted windows. In <em>Proceedings of the IEEE/CVF International Conference on Computer Vision</em> (pp. 10012–10022).</li>
+  <li id="ref-11">Liang, Y., Ge, C., Tong, Z., Song, Y., Wang, J., & Xie, P. (2022). Not all patches are what you need: Expediting vision transformers via token reorganizations. <em>arXiv preprint arXiv:2202.07800</em>.</li>
+  <li id="ref-12">Rao, Y., Zhao, W., Liu, B., Lu, J., Zhou, J., & Hsieh, C. J. (2021). DynamicViT: Efficient vision transformers with dynamic token sparsification. <em>Advances in Neural Information Processing Systems, 34</em>, 13937–13949.</li>
+  <li id="ref-13">Bolya, D., Fu, C. Y., Dai, X., Zhang, P., Feichtenhofer, C., & Hoffman, J. (2022). Token merging: Your ViT but faster. <em>arXiv preprint arXiv:2210.09461</em>.</li>
+  <li id="ref-14">Marin, D., Chang, J. H. R., Ranjan, A., Prabhu, A., Rastegari, M., & Tuzel, O. (2021). Token pooling in vision transformers. <em>arXiv preprint arXiv:2110.03860</em>.</li>
+  <li id="ref-15">Kong, Z., Dong, P., Ma, X., Meng, X., Niu, W., Sun, M., Shen, X., Yuan, G., Ren, B., Tang, H., et al. (2022). SPViT: Enabling faster vision transformers via latency-aware soft token pruning. In <em>European Conference on Computer Vision</em> (pp. 620–640). Springer.</li>
+  <li id="ref-16">Chang, S., Wang, P., Lin, M., Wang, F., Zhang, D. J., Jin, R., & Shou, M. Z. (2023). Making vision transformers efficient from a token sparsification view. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 6195–6205).</li>
+  <li id="ref-17">Jiang, H., Li, Y., Zhang, C., Wu, Q., Luo, X., Ahn, S., Han, Z., Abdi, A. H., Li, D., Lin, C. Y., et al. (2024). MInference 1.0: Accelerating pre-filling for long-context LLMs via dynamic sparse attention. <em>Advances in Neural Information Processing Systems, 37</em>, 52481–52515.</li>
+  <li id="ref-18">Wang, S., Li, B. Z., Khabsa, M., Fang, H., & Ma, H. (2020). Linformer: Self-attention with linear complexity. <em>arXiv preprint arXiv:2006.04768</em>.</li>
+  <li id="ref-19">Kim, S., Shen, S., Thorsley, D., Gholami, A., Kwon, W., Hassoun, J., & Keutzer, K. (2022). Learned token pruning for transformers. In <em>Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining</em> (pp. 784–794).</li>
+  <li id="ref-20">Akhauri, Y., AbouElhamayed, A. F., Gao, Y., Chang, C. C., Jain, N., & Abdelfattah, M. S. (2025). TokenButler: Token importance is predictable. <em>arXiv preprint arXiv:2503.07518</em>.</li>
+  <li id="ref-21">Xiong, J., Shen, J., Ye, F., Tao, C., Wan, Z., Lu, J., Wu, X., Zheng, C., Guo, Z., Kong, L., et al. (2024). UNComp: Uncertainty-aware long-context compressor for efficient large language model inference. <em>arXiv preprint arXiv:2410.03090</em>.</li>
+  <li id="ref-22">Chen, Z., Wu, J., Wang, W., Su, W., Chen, G., Xing, S., Zhong, M., Zhang, Q., Zhu, X., Lu, L., et al. (2024). InternVL: Scaling up vision foundation models and aligning for generic visual-linguistic tasks. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 24185–24198).</li>
+  <li id="ref-23">Zhang, Y., Fan, C. K., Ma, J., Zheng, W., Huang, T., Cheng, K., Gudovskiy, D., Okuno, T., Nakata, Y., Keutzer, K., et al. (2024). SparseVLM: Visual token sparsification for efficient vision-language model inference. <em>arXiv preprint arXiv:2410.04417</em>.</li>
+  <li id="ref-24">Dao, T. (2024). FlashAttention-2: Faster attention with better parallelism and work partitioning. In <em>International Conference on Learning Representations</em> (pp. 35549–35562).</li>
 </ol>
 </article>
  
 </body>
 </html>
- 
