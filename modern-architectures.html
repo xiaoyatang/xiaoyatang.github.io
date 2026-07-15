@@ -31,19 +31,12 @@ MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] }
  
 <article>
 <h3 id="transformer-architectures">The pains and gains of Transformers</h3>
-<p>If AI is an exquisite and magnificent wine cup, the Transformer is the material from which this cup is shaped—be it glass, metal, or clay. 
-Since its emergence, the Transformer<sup><a href="#ref-1">[1]</a></sup><sup><a href="#ref-2">[2]</a></sup> has
-become a leading architecture across a wide range of applications, building on the success of
-the self-attention. It has now
-become a fundamental building block of Computer Vision (CV) models,
-Vision-Language Models (VLMs), and Large
-Language Models (LLMs). 
-Regardless of whether the Transformer takes a vanilla, hierarchical, or other 
-task-specific variant, self-attention remains its core: it computes relationships among all tokens
-within a sequence, yielding a global perception of the entire input, whatever the modality. It
-comes with a price. While Transformers excel at modeling global dependencies through a fully
-connected self-attention graph, they inherently suffer from the
-notorious <span class="math inline">\(O(N^2)\)</span> computational complexity, where N denotes the number of 
+<p>Imagine AI as a collection of exquisite vessels. The Transformer is a common architectural
+principle that shapes raw materials into diverse forms - be they wine glasses, bowls, vases,
+or countless others, designed for different purposes. It has been a fundamental building block of Computer Vision (CV) models,
+Vision-Language Models (VLMs), and Large Language Models (LLMs) since its emergence<sup><a href="#ref-1">[1]</a></sup>.  
+While Transformers excel at modeling global dependencies through a fully connected self-attention graph<sup><a href="#ref-2">[2]</a></sup>, 
+they inherently suffer from the notorious <span class="math inline">\(O(N^2)\)</span> computational complexity, where N denotes the number of 
 nodes(tokens, or patches) in the fully connected graph.
 </p>
 <p>
@@ -51,31 +44,25 @@ The computational cost of Transformers comes from two main sources:
 self-attention, with \(O(N^2)\) complexity in the sequence length \(N\),
 and feed-forward networks (FFNs, usually two-layer MLPs), with
 \(O(N \cdot d^2)\) complexity, scaling linearly with the sequence length.
-These two cost sources define the fundamental divergence between two
-families of efficiency methods: efficient attention attempts to reform
-the \(O(N^2)\) attention computation itself, while token pruning directly
-reduces \(N\).
+These two computational bottlenecks have inspired two complementary directions for improving Transformer efficiency:
+efficient attention attempts to reform the \(O(N^2)\) attention computation itself, 
+while token pruning directly reduces \(N\).
 </p>
  
 <h3 id="efficient-attention">Efficient Attention</h3>
-<p>Thus, a large body of work has sought to alleviate the notorious quadratic complexity of self-attention,
-which becomes one of the central focuses in the evolution of Transformers. It typically leaves the token count unchanged 
-and instead approximates or restructures the attention operation itself, avoiding full pairwise computation. 
+<p>A large body of work has sought to alleviate the quadratic complexity of self-attention.
+It typically approximates or restructures the attention operation itself, avoiding full pairwise computation. 
 Linear Attention <sup><a href="#ref-3">[3]</a></sup> reformulates the self-attention mechanism
-by expressing the softmax similarity function as a dot product between
-kernel feature maps, leveraging the associativity of matrix
-multiplication to achieve a linear computational complexity with respect
-to sequence length(N). This formulation also reveals the intrinsic
-connection between Transformers and recurrent neural networks (RNNs),
-enabling efficient autoregressive modeling with faster training and
-inference. However, the approximation error is usually non-trivial.
+by expressing the softmax similarity function as a dot product between kernel feature maps, leveraging the associativity of matrix
+multiplication. This formulation also reveals the intrinsic connection between Transformers and recurrent neural networks (RNNs),
+enabling efficient autoregressive modeling with faster training and inference. The approximation error is usually non-trivial.
 </p>
 <p>
 Another branch is FlashAttention<sup><a href="#ref-4">[4]</a></sup>, which does not approximate attention but instead 
 reorganizes GPU memory access patterns via tiling and recomputation. It reduces memory footprint to \(O(N)\). 
 FlashAttention is an exact computation of attention with no approximation error, and is now the dominant engineering solution 
-in practice, especially in LLMs and VLMs. 
-Other related methods include grouped query attention / multi-query attention (GQA/MQA)<sup><a href="#ref-5">[5]</a></sup>, 
+in practice, for LLMs and VLMs. 
+Other methods include grouped query attention / multi-query attention (GQA/MQA)<sup><a href="#ref-5">[5]</a></sup>, 
 where multiple query heads share a single set of key/value projections. 
 This primarily targets the KV cache memory bottleneck at inference time and offers limited training speedup.
 </p>
@@ -83,8 +70,7 @@ This primarily targets the KV cache memory bottleneck at inference time and offe
 from a different perspective, by restricting self-attention to local
 regions. When the window or kernel size is relatively small compared to
 the input resolution, the computational complexity can be significantly
-reduced, as demonstrated in local attention
-mechanisms for vision data. Dilated Neighborhood Attention Transformer(DiNAT)
+reduced. For example, Dilated Neighborhood Attention Transformer(DiNAT)
 <sup><a href="#ref-6">[6]</a></sup> extends Neighborhood Attention
 <sup><a href="#ref-7">[7]</a></sup> into a dilated local attention capable of
 preserving locality, maintaining translational equivariance, and
@@ -93,7 +79,7 @@ exponentially expanding the receptive field.</p>
 patch-to-patch attention, PaCa-ViT<sup><a href="#ref-8">[8]</a></sup> learns to
 cluster patches into a predefined number of <span
 class="math inline">\(M\)</span> clusters that serve as keys and values,
-relaxing the quadratic complexity to linear and demonstrating greater
+relaxing the complexity to linear \(O(N \ccdot M)\) and demonstrating greater
 efficiency than PVT models <sup><a href="#ref-9">[9]</a></sup> and Swin
 <sup><a href="#ref-10">[10]</a></sup>.
 </p>
@@ -101,15 +87,16 @@ efficiency than PVT models <sup><a href="#ref-9">[9]</a></sup> and Swin
 <h3 id="section:token-pruning">Token Pruning</h3>
 <p>
 Another line of research reduces the computational cost by directly decreasing the number of input tokens.
-The vision information is inherently redundant.
-Visual token pruning is based on the central intuition that not all tokens are equally important, especially across layers, 
-so a subset can be discarded mid-network without materially affecting the final output. One branch of pruning 
-(or merging) methods is importance-based, including EViT <sup><a href="#ref-11">[11]</a></sup>, 
+This is intuitive for vision tasks because visual information is inherently redundant.
+The core idea is that not all tokens are equally important, especially across layers, 
+so a subset can be discarded mid-network without materially affecting the final output. 
+A branch of pruning (or merging) methods is criteria-based (e.g., importance or similarity),
+such as EViT <sup><a href="#ref-11">[11]</a></sup>, 
 DynamicViT <sup><a href="#ref-12">[12]</a></sup>, ToMe <sup><a href="#ref-13">[13]</a></sup>,
 TokenPooling <sup><a href="#ref-14">[14]</a></sup>, and
 SP-ViT <sup><a href="#ref-15">[15]</a></sup>. These methods either use
 attention weights over visual tokens as an importance proxy or rely on
-a learnable predictor. Another branch is clustering-based, represented
+a learnable predictor. Some others are clustering-based, represented
 by ST-ViT <sup><a href="#ref-16">[16]</a></sup>.
 </p>
   
@@ -168,19 +155,26 @@ is a highly natural fit.
 </p>
  
 <p>
-Another important advantage of token pruning is its flexibility. Some
-methods, such as ToMe
-<sup><a href="#ref-13">[13]</a></sup>, are completely training-free,
-while others can be trained independently without modifying the backbone.
+Flexibility is an additional advantage of token pruning. Some
+methods, such as ToMe<sup><a href="#ref-13">[13]</a></sup>, are completely training-free,
+while some others can be trained independently without modifying the backbone.
 By contrast, architectural changes to the attention mechanism often
-require retraining the entire model, introducing substantial
-computational overhead.
+require retraining the entire model, introducing substantial computational overhead.
 </p>
  
 <p>
 Both approaches have their limitations.
 </p>
- 
+
+<p>
+For efficient attention, approximation errors introduced by linear
+attention are often non-negligible. Sparse attention patterns usually rely on 
+hand-designed inductive biases and often have limited transferability. 
+FlashAttention<sup><a href="#ref-24">[24]</a></sup> does not reduce the quadratic complexity itself, 
+but accelerates attention by minimizing memory I/O through hardware-aware tiling, 
+making it the most widely used solution in practice today.
+</p>
+
 <p>
 For token pruning, pruning decisions are irreversible: once a token is
 discarded, no downstream layer can recover its complete information.
@@ -195,21 +189,7 @@ input sequences.
 </p>
  
 <p>
-For efficient attention, approximation errors introduced by linear
-attention are often non-negligible. Sparse attention patterns usually
-depend on hand-designed inductive biases and often have limited
-transferability. FlashAttention v1
-<sup><a href="#ref-4">[4]</a></sup> primarily reduces memory I/O rather
-than the asymptotic FLOPs of exact attention, making it most beneficial
-when attention is memory-bound. Later variants, such as
-FlashAttention-2 <sup><a href="#ref-24">[24]</a></sup>, further improve
-compute efficiency by reducing non-matmul FLOPs and increasing GPU
-utilization.
-</p>
- 
-<p>
-Overall, token pruning and efficient attention tackle the same
-efficiency problem from orthogonal directions. In VLM visual encoders,
+Overall, token pruning and efficient attention tackle the same problem from orthogonal directions. In VLMs,
 token pruning has a clear advantage because visual tokens are naturally
 redundant, allowing simultaneous reductions in both attention and FFN
 computation. Efficient attention, especially FlashAttention, remains the
@@ -217,7 +197,7 @@ mainstream solution for LLM backbones, where sequence elements cannot be
 safely discarded.
 </p>
  
-<p class="related-note">To roughly know Mamba, check <a href="Mamba.html">Vision Mamba(To be organized...)</a>.</p>
+<!-- <p class="related-note">To roughly know Mamba, check <a href="Mamba.html">Vision Mamba(To be organized...)</a>.</p> -->
   
 <h2>References</h2>
 <ol class="references">
